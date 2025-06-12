@@ -6,9 +6,8 @@ export const GifMaticoApp = () => {
 
     const [ categories, setCategories ] = useState([ "Puppies", "Birds" ]);
 
-    const onAddCategory = () => {
-        const gifToAdd:string = (document.getElementById('gif-input') as HTMLInputElement)?.value;
-        setCategories( [...categories, gifToAdd] );
+    const onAddCategory = ( newCategory: string ) => {
+        setCategories( [ newCategory, ...categories ] );
     }
 
     return (
@@ -19,10 +18,10 @@ export const GifMaticoApp = () => {
             <h2>{env.appDescription}</h2>
 
             {/* /Input */}
-            {/* <input type="text" id="gif-input" /> */}
-            <AddCategory />
-
-            <button onClick={ onAddCategory } >Add</button>
+            <AddCategory 
+                // setCategories={ setCategories } 
+                onNewCategory = { event => onAddCategory(event) }
+            />
 
             {/* Listado de Gifs */}
             <ol>

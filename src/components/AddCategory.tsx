@@ -1,21 +1,30 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
-export const AddCategory = () => {
+interface AddCategoryProps{
+    onNewCategory: Dispatch<SetStateAction<string[]>>
+}
 
-    const [inputValue, setInputValue] = useState('Kitty')
+export const AddCategory: React.FC<AddCategoryProps> = ({ onNewCategory }) => {
+
+    const [inputValue, setInputValue] = useState('')
 
     const onInputChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
-        const userValue = target.value;
-        setInputValue( userValue )
+        setInputValue( target.value )
     }
+    
+    const onSubmit = ( e: React.FormEvent<HTMLFormElement> ) => {
+        const userValue = inputValue.trim();
+        
+        e.preventDefault();        
+        if( userValue.length <= 1 ) return;
 
-    const onSubmit= ( e: React.FormEvent<SubmitEvent> ) => {
-        e.preventDefault();
-        console.log(inputValue)
+        // setCategory( categories => [ userValue, ...categories ]);
+        onNewCategory( [ userValue ] );
+        setInputValue('');
     }
 
     return (
-        <form onSubmit={ (e) => onSubmit(e) }>
+        <form onSubmit={ ( e: React.FormEvent<HTMLFormElement> ) => onSubmit(e) }>
             <input 
                 type="text"
                 placeholder="Search GIF"
